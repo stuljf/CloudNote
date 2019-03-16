@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="tmp" %>
+
+<tmp:login title="登录">
+<jsp:body>
 <script type="text/javascript">
 function login(){
+	alert(JSON.stringify($("#login_form").serializeJSON()));
 	$.ajax({
 			type:"POST",
 			url:"${pageContext.request.contextPath}/user/login",
@@ -24,15 +22,43 @@ function login(){
 			}});
 }
 </script>
-</head>
-<body>
 <span id="tip" style="color:red"></span>
-<form id="login_form">
-<div><input name="email" type="text" placeholder="请输入登录邮箱"/></div>
-<div><input name="password" type="password" placeholder="请输入密码"/></div>
-<div><input type="button" onclick="login()" value="登录"/></div>
-</form>
-<a href="${pageContext.request.contextPath}/web/regist">注册</a>
-<a href="${pageContext.request.contextPath}/web/forget">忘记密码</a>
-</body>
-</html>
+
+<span id="tip2" style="color:red"></span>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+
+				<!-- Start Sign In Form -->
+				<form id="login_form" class="fh5co-form" role="form">
+				
+						<h2>登录</h2>
+						<div class="form-group">
+							
+							<input type="text" class="form-control" name="email" placeholder="请输入登录邮箱"/>
+						</div>
+						<div class="form-group">
+							
+							<input type="password" class="form-control" name="password" placeholder="请输入密码"/>
+						</div>
+						<div class="form-group">
+							<input type="checkbox" name="remember"> 保持登录</label>
+						</div>
+						<div class="form-group">
+							<p>没有账号？ <a href="${pageContext.request.contextPath}/web/regist">注册</a> | <a href="${pageContext.request.contextPath}/web/forget">忘记密码？</a></p>
+						</div>
+						<div class="form-group">
+							<input type="button" value="登录" class="btn btn-primary" onclick="login()">
+						</div>
+					
+				</form>
+				<!-- END Sign In Form -->
+
+			</div>
+		</div>
+		
+	</div>
+
+</jsp:body>
+</tmp:login>

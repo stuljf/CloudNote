@@ -15,7 +15,12 @@
 	<!-- 组件扫描 -->
 	<context:component-scan base-package="henu.controller" />
 	
+	<!-- 映射器、适配器的自动配置 -->
     <mvc:annotation-driven/>
+    
+    <!-- 配置资源映射，对拦截的静态资源进行处理（转发器的URLPattern是“/”，会覆盖Servlet默认的映射） -->
+    <mvc:resources location="/WEB-INF/sources/"
+		mapping="/sources/**" />
 
 	<!-- 解析器 -->
 	<bean
