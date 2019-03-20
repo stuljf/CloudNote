@@ -6,7 +6,6 @@
 <jsp:body>
 <script type="text/javascript">
 function login(){
-	alert(JSON.stringify($("#login_form").serializeJSON()));
 	$.ajax({
 			type:"POST",
 			url:"${pageContext.request.contextPath}/user/login",
@@ -18,14 +17,11 @@ function login(){
 					window.location="${pageContext.request.contextPath}/web/main";
 				} else {
 					$("#tip").html(data.msg);
+					$("#tip").show();
 				} 
 			}});
 }
 </script>
-<span id="tip" style="color:red"></span>
-
-<span id="tip2" style="color:red"></span>
-
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
@@ -34,19 +30,18 @@ function login(){
 				<form id="login_form" class="fh5co-form" role="form">
 				
 						<h2>登录</h2>
+						<div id="tip" class="alert alert-warning" style="display:none;"></div>
 						<div class="form-group">
-							
-							<input type="text" class="form-control" name="email" placeholder="请输入登录邮箱"/>
+							<input type="text" class="form-control" name="email" placeholder="请输入邮箱账号"/>
 						</div>
 						<div class="form-group">
-							
 							<input type="password" class="form-control" name="password" placeholder="请输入密码"/>
 						</div>
 						<div class="form-group">
-							<input type="checkbox" name="remember"> 保持登录</label>
+							<label><input type="checkbox" name="remember"> 保持登录</label>
 						</div>
 						<div class="form-group">
-							<p>没有账号？ <a href="${pageContext.request.contextPath}/web/regist">注册</a> | <a href="${pageContext.request.contextPath}/web/forget">忘记密码？</a></p>
+							<p>首次登录将自动注册账号&ensp;|&ensp;<a href="${pageContext.request.contextPath}/web/forget">忘记密码？</a></p>
 						</div>
 						<div class="form-group">
 							<input type="button" value="登录" class="btn btn-primary" onclick="login()">
@@ -57,7 +52,6 @@ function login(){
 
 			</div>
 		</div>
-		
 	</div>
 
 </jsp:body>

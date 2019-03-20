@@ -18,6 +18,7 @@
 
 </head>
 <body>
+	<div id="head_line"></div>
 	<jsp:doBody />
 </body>
 </html>

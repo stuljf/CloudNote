@@ -2,6 +2,7 @@ package henu.service;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,8 @@ import henu.model.ResultModel;
 @Service
 public class UserService {
 
+	private Logger log=Logger.getLogger(UserService.class);
+	
 	@Resource
 	private UserDao userDao;
 	
@@ -24,8 +27,17 @@ public class UserService {
 				return ResultModel.result(400, "密码不正确");
 			}
 		}catch(DataAccessException e) {
-			e.printStackTrace();
-			return ResultModel.result(500, "用户不存在");
+			//e.printStackTrace();
+			//return ResultModel.result(500, "用户不存在");
+			String name=user.getEmail().split("@")[0];
+			user.setName(name);
+			int n=userDao.insert(user);
+			if(n==1) {
+				log.info(user.getName());
+				return ResultModel.ok();
+			} else {
+				return ResultModel.result(400, "注册用户失败");
+			}
 		}
 	}
 	

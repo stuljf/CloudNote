@@ -34,6 +34,7 @@ public class TestController {
 	public ResultModel login(@RequestBody User user) {
 		
 		log.info("////////////////////"+user.getEmail()+"///"+user.getPassword());
+		
 		return userService.login(user);
 	}
 	
