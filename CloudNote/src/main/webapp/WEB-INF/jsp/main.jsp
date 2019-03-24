@@ -18,9 +18,9 @@
 				}
 			);
 	}
-	//获取该标签下的笔记
-	function getNotesByTag(id,text){
-		$.get("${pageContext.request.contextPath}/note/notes?id="+id+"&book="+text,
+	//获取回收站的笔记
+	function getDelete(){
+		$.get("${pageContext.request.contextPath}/recycle/notes",
 				function(data){
 					$("#notes").html(data);
 				}
@@ -56,7 +56,9 @@
 			<p class="side-title"></p>
 			<ul class="list-unstyled side-content">
 				<li><span class="glyphicon glyphicon-user"></span> 我的好友</li>
-				<li><span class="glyphicon glyphicon-trash"></span> 回收站</li>
+				<li><a href="#" onclick="getDelete()">
+					<span class="glyphicon glyphicon-trash"></span> 回收站
+				</a></li>
 			</ul>
 		</div>
 		<div id="notes" class="col-md-8">

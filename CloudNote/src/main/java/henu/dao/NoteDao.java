@@ -34,14 +34,7 @@ public class NoteDao {
 				note.getUid());
 		return result;
 	}
-	
-	//标记一条笔记为删除状态（放入回收站）
-	public int remove(Integer id) {
-		String sql="update note set del=1 where id=?;";
-		int result=jt.update(sql, id);
-		return result;
-	}
-	
+
 	//从数据库中删除笔记
 	public int delete(Integer id) {
 		String sql="delete from note where id=? and del=1;";
@@ -56,8 +49,15 @@ public class NoteDao {
 		return result;
 	}
 	
+	//改删除标记
+	public int updateDel(Note note) {
+		String sql="update note set del=? where id=?;";
+		int result=jt.update(sql, note.getDel(), note.getId());
+		return result;
+	}
+	
 	//改同步标记
-	public int update(Note note) {
+	public int updateSync(Note note) {
 		String sql="update note set sync=? where id=?;";
 		int result=jt.update(sql, note.getSync(), note.getId());
 		return result;
@@ -84,10 +84,10 @@ public class NoteDao {
 		return note;
 	}
 	
-	//选择一个用户的所有笔记
-	public List<Map<String, Object>> selectByUid(Integer uid){
-		String sql="select note.id id,title,book,user.name name from note,user where uid=user.id and uid=? and del=0;";
-		List<Map<String, Object>> notes=jt.queryForList(sql, uid);
+	//选择所有笔记
+	public List<Map<String, Object>> selectNotes(Note note){
+		String sql="select note.id id,title,book,user.name name from note,user where uid=user.id and uid=? and del=?;";
+		List<Map<String, Object>> notes=jt.queryForList(sql, note.getUid(), note.getDel());
 		return notes;
 	}
 	
