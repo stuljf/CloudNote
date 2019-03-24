@@ -21,7 +21,7 @@ public class UserDao {
 	private RowMapper<User> rowMapper=new BeanPropertyRowMapper<User>(User.class);
 	
 	public int insert(User user) throws DataAccessException {
-		String sql="insert into user values(NULL,?,?,NULL,?,NULL,NULL);";
+		String sql="insert into user values(NULL,?,?,?,NULL);";
 		return jt.update(sql, user.getName(), user.getPassword(), user.getEmail());
 	}
 	
@@ -31,7 +31,13 @@ public class UserDao {
 		return user;
 	}
 	
-	public String selectNameById(int id) {
+	public User selectById(Integer id) throws DataAccessException {
+		String sql="select * from user where id=?;";
+		User user=jt.queryForObject(sql, rowMapper, id);
+		return user;
+	}
+	
+	public String selectNameById(Integer id) {
 		String sql = "select name from user where id=?;";
 		String name=jt.queryForObject(sql, String.class, id);
 		return name;
@@ -41,5 +47,11 @@ public class UserDao {
 		String sql="select * from user;";
 		List<User> users=jt.query(sql, rowMapper);
 		return users;
+	}
+	
+	public List<User> selectFriend(Integer uid){
+		String sql="select u.* from friend f,user u where f.fid=u.id and f.uid=?;";
+		List<User> friends=jt.query(sql, rowMapper, uid);
+		return friends;
 	}
 }

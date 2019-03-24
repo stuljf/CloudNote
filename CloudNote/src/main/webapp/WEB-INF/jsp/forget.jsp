@@ -17,7 +17,7 @@
 						<input type="email" class="form-control" id="email" placeholder="请输入邮箱账号" autocomplete="off">
 					</div>
 					<div class="form-group">
-						<p><a href="${pageContext.request.contextPath}/web/login">登录</a> | <a href="${pageContext.request.contextPath}/web/regist">注册</a></p>
+						<p><a href="${pageContext.request.contextPath}/web/login">登录/注册</a></p>
 					</div>
 					<div class="form-group">
 						<input type="button" value="发送邮件" class="btn btn-primary">

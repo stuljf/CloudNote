@@ -1,6 +1,8 @@
 package henu.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -15,9 +17,9 @@ import henu.service.UserService;
 
 @Controller
 @RequestMapping("/user")
-public class TestController {
+public class UserController {
 	
-	private Logger log=Logger.getLogger(TestController.class);
+	private Logger log=Logger.getLogger(UserController.class);
 	
 	@Resource
 	private UserService userService;
@@ -31,11 +33,15 @@ public class TestController {
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
-	public ResultModel login(@RequestBody User user) {
+	public ResultModel login(@RequestBody User user, HttpServletRequest request) {
 		
-		log.info("////////////////////"+user.getEmail()+"///"+user.getPassword());
-		
-		return userService.login(user);
+		log.info("用户"+user.getEmail()+"通过"+user.getPassword()+"登录");
+		ResultModel result=userService.login(user);
+		if(result.getStatus()==200) {
+			HttpSession session = request.getSession();
+			session.setAttribute("user", result.getData());
+		}
+		return result;
 	}
 	
 }

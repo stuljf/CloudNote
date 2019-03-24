@@ -14,7 +14,7 @@ function login(){
 			data:JSON.stringify($("#login_form").serializeJSON()),
 			success:function(data){
 				if (data.status == 200) {
-					window.location="${pageContext.request.contextPath}/web/main";
+					window.location="${pageContext.request.contextPath}/note/main";
 				} else {
 					$("#tip").html(data.msg);
 					$("#tip").show();

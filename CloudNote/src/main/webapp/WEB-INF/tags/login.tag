@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="${pageContext.request.contextPath }/sources/img/logo.ico" />
 <title>${title }</title>
 
 <!-- 引入jquery -->

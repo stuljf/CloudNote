@@ -22,7 +22,7 @@ public class UserService {
 		try {
 			User u=userDao.selectByEmail(user.getEmail());
 			if(u.getPassword().equals(user.getPassword())) {
-				return ResultModel.ok();
+				return ResultModel.ok(u);
 			} else {
 				return ResultModel.result(400, "密码不正确");
 			}
@@ -34,7 +34,8 @@ public class UserService {
 			int n=userDao.insert(user);
 			if(n==1) {
 				log.info(user.getName());
-				return ResultModel.ok();
+				User u=userDao.selectByEmail(user.getEmail());
+				return ResultModel.ok(u);
 			} else {
 				return ResultModel.result(400, "注册用户失败");
 			}
@@ -54,6 +55,10 @@ public class UserService {
 			return ResultModel.result(500, "数据插入错误");
 		}
 		
+	}
+	
+	public User getUserById(Integer id) {
+		return userDao.selectById(id);
 	}
 	
 }
