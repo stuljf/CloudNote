@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import henu.dao.FileAccess;
 import henu.dao.NoteDao;
 import henu.entity.Note;
 import henu.model.ResultModel;
@@ -15,6 +16,9 @@ import henu.model.ResultModel;
 public class RecycleService {
 	@Resource
 	private NoteDao noteDao;
+	
+	@Resource
+	private FileAccess fileAccess;
 
 	public List<Map<String, Object>> getDelete(Integer uid) {
 		Note note=new Note();
@@ -24,8 +28,12 @@ public class RecycleService {
 	}
 	
 	public ResultModel delete(Integer id) {
+		Note note = noteDao.select(id);
+		//将笔记信息删除
 		int delete = noteDao.delete(id);
 		if(delete==1) {
+			//将笔记文件删除
+			fileAccess.delete(note.getContent());
 			return ResultModel.ok();
 		}else {
 			return ResultModel.result(400, "删除笔记失败");

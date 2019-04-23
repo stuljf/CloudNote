@@ -1,5 +1,8 @@
 package henu.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,8 +10,13 @@ import javax.annotation.Resource;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import com.mysql.jdbc.Statement;
 
 import henu.entity.Note;
 
@@ -29,10 +37,22 @@ public class NoteDao {
 	
 	//插入一条笔记
 	public int insert(Note note) {
-		String sql="inert into note values(NULL,?,?,?,?,DEFAULT,DEFAULT);";
-		int result=jt.update(sql, note.getTitle(), note.getContent(), note.getBook(),
-				note.getUid());
-		return result;
+		String sql="insert into note values(NULL,?,?,?,?,DEFAULT,DEFAULT);";
+		KeyHolder keyHolder=new GeneratedKeyHolder();
+		jt.update(new PreparedStatementCreator() {
+			
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, note.getTitle());
+				ps.setString(2, note.getContent());
+				ps.setString(3, note.getBook());
+				ps.setInt(4, note.getUid());
+				return ps;
+			}
+			
+		}, keyHolder);
+		return keyHolder.getKey().intValue();
 	}
 
 	//从数据库中删除笔记
@@ -57,9 +77,9 @@ public class NoteDao {
 	}
 	
 	//改同步标记
-	public int updateSync(Note note) {
-		String sql="update note set sync=? where id=?;";
-		int result=jt.update(sql, note.getSync(), note.getId());
+	public int updateSync(Integer id) {
+		String sql="update note set sync=sync+1 where id=?;";
+		int result=jt.update(sql, id);
 		return result;
 	}
 	

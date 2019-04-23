@@ -28,16 +28,16 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle"	data-toggle="dropdown">
-						<img id="head" src="${pageContext.request.contextPath }/sources/img/head.jpg"/>
+						<img class="head-img" src="${pageContext.request.contextPath }/sources/img/head.jpg"/>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="#">${user.email }</a></li>
-						<li><a href="#">${user.name }</a></li>
-						<li><a href="#">Jasper Report</a></li>
+						<li><a>昵称：${user.name }</a></li>
+						<li><a>邮箱：${user.email }</a></li>
 						<li class="divider"></li>
-						<li><a href="#">分离的链接</a></li>
+						<li><a href="#">修改用户昵称</a></li>
+						<li><a href="#">修改密码</a></li>
 						<li class="divider"></li>
-						<li><a href="#">另一个分离的链接</a></li>
+						<li><a href="#">退出登录</a></li>
 					</ul>
 				</li>
 			</ul>

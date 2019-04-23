@@ -21,10 +21,10 @@ function del(){
 	$.get("${pageContext.request.contextPath}/note/delete?id="+id,
 			function(data){
 				if(data.status==200){
-					$('#delModal').modal('hide');
 					$('#delModal').on('hidden.bs.modal', function () {
 						  getNotes('${tagid}','${title}');
 					});
+					$('#delModal').modal('hide');
 				}
 			}
 		);
@@ -46,7 +46,7 @@ function del(){
 	<tbody>
 		<c:forEach items="${notes }" var="note">
 			<tr class="note-line">
-				<td><a href="${pageContext.request.contextPath}/note/edit?id=${note['id'] }">${note['title'] }</a></td>
+				<td><a href="${pageContext.request.contextPath}/edit/edit?id=${note['id'] }">${note['title'] }</a></td>
 				<td>${note['name'] }</td>
 				<td>${note['book'] }</td>
 				<td><div class="dropdown note-option">

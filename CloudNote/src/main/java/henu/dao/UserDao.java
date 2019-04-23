@@ -37,21 +37,21 @@ public class UserDao {
 		return user;
 	}
 	
-	public String selectNameById(Integer id) {
-		String sql = "select name from user where id=?;";
-		String name=jt.queryForObject(sql, String.class, id);
-		return name;
-	}
-	
-	public List<User> selectAll(){
-		String sql="select * from user;";
-		List<User> users=jt.query(sql, rowMapper);
-		return users;
-	}
-	
 	public List<User> selectFriend(Integer uid){
 		String sql="select u.* from friend f,user u where f.fid=u.id and f.uid=?;";
 		List<User> friends=jt.query(sql, rowMapper, uid);
 		return friends;
+	}
+	
+	public int insertFriend(Integer uid, Integer fid) {
+		String sql="insert into friend values(?,?),(?,?);";
+		int update = jt.update(sql, uid, fid, fid, uid);
+		return update;
+	}
+	
+	public int deleteFriend(Integer uid, Integer fid) {
+		String sql="delete from friend where (uid=? and fid=?) or (uid=? and fid=?);";
+		int update = jt.update(sql, uid, fid, fid, uid);
+		return update;
 	}
 }

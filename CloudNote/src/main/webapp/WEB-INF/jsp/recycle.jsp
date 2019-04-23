@@ -74,7 +74,7 @@ function rec(){
 	<tbody>
 		<c:forEach items="${notes }" var="note">
 			<tr class="note-line">
-				<td><a href="${pageContext.request.contextPath}/note/edit?id=${note['id'] }">${note['title'] }</a></td>
+				<td>${note['title'] }</td>
 				<td>${note['name'] }</td>
 				<td>${note['book'] }</td>
 				<td><div class="dropdown note-option">

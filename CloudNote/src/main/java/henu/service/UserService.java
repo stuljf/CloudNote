@@ -1,5 +1,7 @@
 package henu.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -27,8 +29,6 @@ public class UserService {
 				return ResultModel.result(400, "密码不正确");
 			}
 		}catch(DataAccessException e) {
-			//e.printStackTrace();
-			//return ResultModel.result(500, "用户不存在");
 			String name=user.getEmail().split("@")[0];
 			user.setName(name);
 			int n=userDao.insert(user);
@@ -41,24 +41,33 @@ public class UserService {
 			}
 		}
 	}
-	
-	public ResultModel regist(User user) {
-		try {
-			int n=userDao.insert(user);
-			if(n==1) {
-				return ResultModel.ok();
-			} else {
-				return ResultModel.result(400, "注册用户失败");
-			}
-		}catch(DataAccessException e) {
-			e.printStackTrace();
-			return ResultModel.result(500, "数据插入错误");
-		}
-		
+
+	public List<User> getFriend(Integer id){
+		return userDao.selectFriend(id);
 	}
 	
-	public User getUserById(Integer id) {
-		return userDao.selectById(id);
+	public ResultModel addFriend(Integer uid, String email) {
+		try {
+			User u=userDao.selectByEmail(email);
+			if(u.getId()!=uid) {
+				int i = userDao.insertFriend(uid, u.getId());
+				if(i==2) {
+					return ResultModel.ok();
+				}
+			}
+			return ResultModel.result(400, "添加好友失败");
+		}catch(DataAccessException e) {
+			return ResultModel.result(400, "用户不存在");
+		}
+	}
+	
+	public ResultModel deleteFriend(Integer uid, Integer fid) {
+		int i = userDao.deleteFriend(uid, fid);
+		if(i==2) {
+			return ResultModel.ok();
+		}else {
+			return ResultModel.result(400, "删除好友失败");
+		}
 	}
 	
 }
